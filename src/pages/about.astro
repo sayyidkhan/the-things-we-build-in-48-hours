@@ -1,0 +1,106 @@
+---
+import PageShell from "../components/PageShell.astro";
+---
+
+<PageShell title="About | The Things We Build in 48 Hours">
+  <section class="page-hero container">
+    <h1 class="serif">A builder learning in public, one deadline at a time.</h1>
+    <p>
+      Sayyid Khan is a Singapore-based AI builder and software engineer
+      documenting his journey to complete one hundred hackathons while searching
+      for purpose through the things he builds.
+    </p>
+  </section>
+
+  <section class="section rail">
+    <div class="container split">
+      <h2 class="serif">Why hackathons?</h2>
+      <div>
+        <p>
+          Hackathons make ambition visible. They turn vague interests into
+          prototypes, teams into pressure systems, and ideas into moments where
+          someone else can finally react.
+        </p>
+        <p>
+          This site exists to keep the full record: the idea, the people, the
+          chaos, the build, the failure, the win, and the lesson.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section container beliefs">
+    <h2 class="serif">Operating Beliefs</h2>
+    <ul>
+      <li>Building is a form of self-discovery.</li>
+      <li>Repetition creates luck.</li>
+      <li>Shipping reveals truth.</li>
+      <li>Failure compounds into instinct.</li>
+      <li>Purpose is discovered through motion.</li>
+    </ul>
+  </section>
+</PageShell>
+
+<style>
+  .page-hero {
+    padding: 78px 0 90px;
+  }
+
+  h1 {
+    max-width: 980px;
+    margin: 0;
+    font-size: clamp(3.3rem, 8vw, 8.5rem);
+    line-height: 0.9;
+  }
+
+  .page-hero p {
+    max-width: 720px;
+    margin: 28px 0 0;
+    color: var(--muted);
+    font-size: 1.15rem;
+    line-height: 1.8;
+  }
+
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 0.7fr) minmax(300px, 0.85fr);
+    gap: 42px;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: clamp(2.4rem, 5vw, 5.4rem);
+    line-height: 0.95;
+  }
+
+  p {
+    margin: 0 0 18px;
+    color: var(--muted);
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+
+  .beliefs ul {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 12px;
+    margin: 32px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    min-height: 150px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    line-height: 1.55;
+    padding-top: 18px;
+  }
+
+  @media (max-width: 900px) {
+    .split,
+    .beliefs ul {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

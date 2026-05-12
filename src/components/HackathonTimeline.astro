@@ -1,0 +1,93 @@
+---
+interface Item {
+  slug: string;
+  data: {
+    number: number;
+    title: string;
+    event: string;
+    result: string;
+    lesson: string;
+    date: string;
+  };
+}
+
+interface Props {
+  items: Item[];
+  limit?: number;
+}
+
+const visibleItems = Astro.props.limit
+  ? Astro.props.items.slice(0, Astro.props.limit)
+  : Astro.props.items;
+---
+
+<div class="timeline">
+  {
+    visibleItems.map((item) => (
+      <article class="timeline-item">
+        <a href={`/hackathons/${item.slug}/`}>
+          <span class="number">#{String(item.data.number).padStart(3, "0")}</span>
+          <div>
+            <p class="meta">{item.data.event}</p>
+            <h3>{item.data.title}</h3>
+            <p>{item.data.lesson}</p>
+          </div>
+          <strong>{item.data.result}</strong>
+        </a>
+      </article>
+    ))
+  }
+</div>
+
+<style>
+  .timeline {
+    border-top: 1px solid var(--line);
+  }
+
+  .timeline-item a {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr) 170px;
+    gap: 24px;
+    align-items: start;
+    padding: 26px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .number {
+    color: var(--accent-strong);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.7rem;
+  }
+
+  h3 {
+    margin: 5px 0 10px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.45rem, 3vw, 2.6rem);
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  strong {
+    justify-self: end;
+    color: var(--text);
+    font-size: 0.86rem;
+  }
+
+  @media (max-width: 740px) {
+    .timeline-item a {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    strong {
+      justify-self: start;
+      color: var(--accent-strong);
+    }
+  }
+</style>

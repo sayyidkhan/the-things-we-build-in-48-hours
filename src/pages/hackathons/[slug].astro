@@ -1,0 +1,74 @@
+---
+import { getCollection, render } from "astro:content";
+import PageShell from "../../components/PageShell.astro";
+import Prose from "../../components/Prose.astro";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("hackathons");
+  return entries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<PageShell title={`${entry.data.title} | Hackathons`}>
+  <Prose>
+    <p class="meta">Hackathon #{entry.data.number} · {entry.data.event}</p>
+    <h1>{entry.data.title}</h1>
+    <p>{entry.data.lesson}</p>
+    <div class="build-summary">
+      <div>
+        <span class="meta">Build</span>
+        <strong>{entry.data.project}</strong>
+      </div>
+      <div>
+        <span class="meta">Result</span>
+        <strong>{entry.data.result}</strong>
+      </div>
+      <div>
+        <span class="meta">Stack</span>
+        <strong>{entry.data.stack.join(" · ")}</strong>
+      </div>
+    </div>
+    <Content />
+  </Prose>
+</PageShell>
+
+<style>
+  .build-summary {
+    display: grid;
+    gap: 0;
+    margin: 32px 0 18px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .build-summary div {
+    display: grid;
+    grid-template-columns: 120px minmax(0, 1fr);
+    gap: 18px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .build-summary div:last-child {
+    border-bottom: 0;
+  }
+
+  strong {
+    color: var(--text);
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 620px) {
+    .build-summary div {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+  }
+</style>

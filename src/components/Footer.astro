@@ -1,0 +1,43 @@
+<footer class="footer">
+  <div class="container footer-inner">
+    <p>
+      Sayyid Khan is a Singapore-based AI builder and software engineer documenting
+      his journey to complete one hundred hackathons.
+    </p>
+    <a href="/contact">Invite me to speak, mentor, judge, or run a workshop</a>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--line);
+    padding: 34px 0;
+    background: #0d0c0a;
+  }
+
+  .footer-inner {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  p {
+    max-width: 620px;
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  a {
+    color: var(--accent-strong);
+    font-weight: 800;
+  }
+
+  @media (max-width: 760px) {
+    .footer-inner {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+</style>

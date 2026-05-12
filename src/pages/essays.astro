@@ -1,0 +1,42 @@
+---
+import { getCollection } from "astro:content";
+import PageShell from "../components/PageShell.astro";
+import EssayList from "../components/EssayList.astro";
+
+const essays = (await getCollection("essays")).sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
+);
+---
+
+<PageShell title="Essays | The Things We Build in 48 Hours">
+  <section class="archive-hero container">
+    <h1 class="serif">Essays</h1>
+    <p>
+      Memoir notes on building, identity, ambition, failure, AI-assisted
+      creation, and the lessons that only appear after shipping.
+    </p>
+  </section>
+  <section class="section container">
+    <EssayList items={essays} />
+  </section>
+</PageShell>
+
+<style>
+  .archive-hero {
+    padding: 76px 0 26px;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(3.5rem, 9vw, 9rem);
+    line-height: 0.9;
+  }
+
+  p {
+    max-width: 700px;
+    margin: 24px 0 0;
+    color: var(--muted);
+    font-size: 1.1rem;
+    line-height: 1.75;
+  }
+</style>

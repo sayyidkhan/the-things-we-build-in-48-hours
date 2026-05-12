@@ -1,0 +1,100 @@
+---
+interface Item {
+  slug: string;
+  data: {
+    number: number;
+    title: string;
+    project: string;
+    event: string;
+    lesson: string;
+    stack: string[];
+  };
+}
+
+interface Props {
+  items: Item[];
+  limit?: number;
+}
+
+const visibleItems = Astro.props.limit
+  ? Astro.props.items.slice(0, Astro.props.limit)
+  : Astro.props.items;
+---
+
+<div class="builds">
+  {
+    visibleItems.map((item) => (
+      <article>
+        <a href={`/hackathons/${item.slug}/`}>
+          <span class="meta">Hackathon #{item.data.number}</span>
+          <h3>{item.data.project}</h3>
+          <p>{item.data.lesson}</p>
+          <ul aria-label={`${item.data.project} stack`}>
+            {item.data.stack.map((tech) => (
+              <li>{tech}</li>
+            ))}
+          </ul>
+        </a>
+      </article>
+    ))
+  }
+</div>
+
+<style>
+  .builds {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  article {
+    min-height: 270px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: rgba(31, 28, 24, 0.74);
+  }
+
+  a {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    padding: 24px;
+  }
+
+  h3 {
+    margin: 42px 0 12px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.55rem, 2vw, 2.2rem);
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: auto 0 0;
+    padding: 28px 0 0;
+    list-style: none;
+  }
+
+  li {
+    border-top: 1px solid var(--line);
+    color: var(--faint);
+    font-size: 0.78rem;
+    font-weight: 800;
+    padding-top: 8px;
+  }
+
+  @media (max-width: 900px) {
+    .builds {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

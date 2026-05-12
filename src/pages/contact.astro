@@ -1,0 +1,97 @@
+---
+import PageShell from "../components/PageShell.astro";
+---
+
+<PageShell title="Contact | The Things We Build in 48 Hours">
+  <section class="contact container">
+    <div>
+      <h1 class="serif">Invite me into the room where builders gather.</h1>
+      <p>
+        Speaking, mentoring, judging, AI workshops, hackathon programming, and
+        collaborations around fast prototyping and builder culture.
+      </p>
+    </div>
+    <form action="mailto:hello@example.com" method="post" enctype="text/plain">
+      <label>
+        Name
+        <input name="name" autocomplete="name" />
+      </label>
+      <label>
+        Email
+        <input name="email" type="email" autocomplete="email" />
+      </label>
+      <label>
+        What are you planning?
+        <textarea name="message" rows="6"></textarea>
+      </label>
+      <button class="button primary" type="submit">Start the Conversation</button>
+    </form>
+  </section>
+</PageShell>
+
+<style>
+  .contact {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.65fr);
+    gap: 54px;
+    align-items: start;
+    padding: 82px 0 110px;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(3.3rem, 8vw, 8.8rem);
+    line-height: 0.9;
+  }
+
+  p {
+    max-width: 690px;
+    margin: 28px 0 0;
+    color: var(--muted);
+    font-size: 1.12rem;
+    line-height: 1.8;
+  }
+
+  form {
+    display: grid;
+    gap: 16px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: rgba(31, 28, 24, 0.74);
+    padding: 24px;
+  }
+
+  label {
+    display: grid;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 0.84rem;
+    font-weight: 800;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: #12110f;
+    color: var(--text);
+    font: inherit;
+    padding: 13px 12px;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  button {
+    width: 100%;
+    cursor: pointer;
+  }
+
+  @media (max-width: 900px) {
+    .contact {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

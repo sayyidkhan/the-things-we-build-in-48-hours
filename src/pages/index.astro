@@ -1,0 +1,354 @@
+---
+import { getCollection } from "astro:content";
+import PageShell from "../components/PageShell.astro";
+import HackathonTimeline from "../components/HackathonTimeline.astro";
+import BuildGrid from "../components/BuildGrid.astro";
+import EssayList from "../components/EssayList.astro";
+
+const hackathons = (await getCollection("hackathons")).sort(
+  (a, b) => b.data.number - a.data.number,
+);
+const essays = (await getCollection("essays")).sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
+);
+const featured = hackathons[0];
+---
+
+<PageShell>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <h1 class="serif">The Things We Build in 48 Hours</h1>
+        <p>
+          A memoir documenting the journey of a builder seeking purpose through
+          one hundred hackathons.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="/essays/">Read the Memoir</a>
+          <a class="button" href="/hackathons/">View Hackathon Archive</a>
+        </div>
+      </div>
+      <div class="hero-frame" aria-hidden="true">
+        <div class="projector"></div>
+        <div class="screen">
+          <span>demo day</span>
+          <strong>64 / 100</strong>
+        </div>
+        <div class="laptop">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="progress rail">
+    <div class="container progress-grid">
+      <div>
+        <strong>64 / 100</strong>
+        <span>Hackathons Completed</span>
+      </div>
+      <div>
+        <strong>Wins</strong>
+        <span>Tracked across the archive</span>
+      </div>
+      <div>
+        <strong>3</strong>
+        <span>Featured Builds</span>
+      </div>
+      <div>
+        <strong>Current Milestone</strong>
+        <span>Building the public memoir</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section featured">
+    <div class="container featured-grid">
+      <div>
+        <p class="meta">Featured Chapter</p>
+        <h2 class="serif">{featured.data.title}</h2>
+      </div>
+      <div>
+        <p>
+          {featured.data.lesson} This chapter opens the archive with the useful
+          tension every hackathon creates: what can be made real before the clock
+          runs out?
+        </p>
+        <a class="button" href={`/hackathons/${featured.slug}/`}>Read Chapter</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-heading">
+        <h2>Hackathon Timeline</h2>
+        <p>
+          A chronological record of ideas, teams, prototypes, failures, wins, and
+          the lessons that stay after demo day.
+        </p>
+      </div>
+      <HackathonTimeline items={hackathons} limit={3} />
+    </div>
+  </section>
+
+  <section class="section builds-section">
+    <div class="container">
+      <div class="section-heading">
+        <h2>Builds From the Archive</h2>
+        <p>
+          Each hackathon entry is also the project record: the product, the
+          stack, the pressure, and the lesson kept in one place.
+        </p>
+      </div>
+      <BuildGrid items={hackathons} limit={3} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-heading">
+        <h2>Memoir Notes</h2>
+        <p>
+          Essays about identity, ambition, shipping, loneliness, and learning to
+          build in the age of AI.
+        </p>
+      </div>
+      <EssayList items={essays} limit={3} />
+    </div>
+  </section>
+
+  <section class="section about-band">
+    <div class="container about-grid">
+      <h2 class="serif">About the Builder</h2>
+      <p>
+        Sayyid Khan is a Singapore-based AI builder and software engineer
+        documenting his journey to complete one hundred hackathons while
+        searching for purpose through the things he builds.
+      </p>
+    </div>
+  </section>
+</PageShell>
+
+<style>
+  .hero {
+    padding: 70px 0 58px;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(360px, 0.75fr);
+    gap: 48px;
+    align-items: center;
+  }
+
+  h1 {
+    max-width: 850px;
+    margin: 0;
+    font-size: clamp(4rem, 9vw, 9.8rem);
+    line-height: 0.88;
+  }
+
+  .hero-copy p {
+    max-width: 610px;
+    margin: 28px 0 0;
+    color: var(--muted);
+    font-size: clamp(1.05rem, 2vw, 1.35rem);
+    line-height: 1.7;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 34px;
+  }
+
+  .hero-frame {
+    position: relative;
+    min-height: 520px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    background:
+      linear-gradient(145deg, rgba(215, 168, 91, 0.2), transparent 34%),
+      linear-gradient(180deg, #28231d, #100f0d);
+  }
+
+  .hero-frame::before {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background:
+      linear-gradient(115deg, transparent 0 42%, rgba(255, 255, 255, 0.08) 43%, transparent 48%),
+      radial-gradient(circle at 52% 18%, rgba(240, 197, 109, 0.34), transparent 12rem);
+  }
+
+  .screen {
+    position: absolute;
+    top: 11%;
+    right: 8%;
+    left: 8%;
+    display: grid;
+    min-height: 210px;
+    place-content: center;
+    border: 1px solid rgba(242, 238, 229, 0.18);
+    background: rgba(8, 8, 7, 0.64);
+    text-align: center;
+  }
+
+  .screen span {
+    color: var(--faint);
+    font-size: 0.8rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .screen strong {
+    margin-top: 10px;
+    color: var(--accent-strong);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 5rem;
+    font-weight: 500;
+  }
+
+  .laptop {
+    position: absolute;
+    right: 11%;
+    bottom: 10%;
+    left: 11%;
+    height: 178px;
+    border: 1px solid rgba(242, 238, 229, 0.16);
+    border-bottom-width: 14px;
+    border-radius: 8px 8px 4px 4px;
+    background: #12110f;
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.38);
+  }
+
+  .laptop span {
+    display: block;
+    width: 72%;
+    height: 9px;
+    margin: 24px 0 0 24px;
+    background: rgba(242, 238, 229, 0.1);
+  }
+
+  .laptop span:nth-child(2) {
+    width: 48%;
+    background: rgba(215, 168, 91, 0.42);
+  }
+
+  .laptop span:nth-child(3) {
+    width: 62%;
+  }
+
+  .progress {
+    background: rgba(13, 12, 10, 0.58);
+  }
+
+  .progress-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .progress-grid div {
+    min-height: 132px;
+    padding: 26px 22px;
+    border-right: 1px solid var(--line);
+  }
+
+  .progress-grid div:first-child {
+    border-left: 1px solid var(--line);
+  }
+
+  .progress-grid strong {
+    display: block;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.8rem, 3vw, 3.2rem);
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  .progress-grid span {
+    display: block;
+    margin-top: 14px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .featured {
+    background: var(--bg-soft);
+  }
+
+  .featured-grid,
+  .about-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(300px, 0.7fr);
+    gap: 44px;
+    align-items: center;
+  }
+
+  .featured h2,
+  .about-band h2 {
+    margin: 10px 0 0;
+    font-size: clamp(3rem, 7vw, 7rem);
+    line-height: 0.9;
+  }
+
+  .featured p:not(.meta),
+  .about-band p {
+    margin: 0 0 24px;
+    color: var(--muted);
+    font-size: 1.1rem;
+    line-height: 1.8;
+  }
+
+  .builds-section {
+    background: rgba(31, 28, 24, 0.38);
+  }
+
+  .about-band {
+    border-top: 1px solid var(--line);
+    background: #0d0c0a;
+  }
+
+  @media (max-width: 900px) {
+    .hero {
+      padding-top: 50px;
+    }
+
+    .hero-grid,
+    .featured-grid,
+    .about-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-frame {
+      min-height: 390px;
+    }
+
+    .progress-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 560px) {
+    h1 {
+      font-size: clamp(3.2rem, 18vw, 5rem);
+    }
+
+    .progress-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .progress-grid div,
+    .progress-grid div:first-child {
+      border-right: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+  }
+</style>

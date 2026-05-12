@@ -1,0 +1,133 @@
+---
+const nav = [
+  ["Home", "/"],
+  ["About", "/about"],
+  ["Hackathons", "/hackathons"],
+  ["Essays", "/essays"],
+  ["Contact", "/contact"],
+];
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label="The Things We Build in 48 Hours">
+      <span>48h</span>
+      <strong>The Things We Build</strong>
+    </a>
+    <nav aria-label="Primary navigation">
+      {
+        nav.map(([label, href]) => (
+          <a href={href} class={Astro.url.pathname === href ? "active" : ""}>
+            {label}
+          </a>
+        ))
+      }
+    </nav>
+    <a class="invite" href="/contact">Invite Me</a>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-bottom: 1px solid rgba(242, 238, 229, 0.1);
+    background: rgba(17, 16, 14, 0.82);
+    backdrop-filter: blur(18px);
+  }
+
+  .header-inner {
+    display: grid;
+    grid-template-columns: 220px 1fr auto;
+    gap: 24px;
+    align-items: center;
+    min-height: 72px;
+  }
+
+  .brand {
+    display: inline-flex;
+    gap: 12px;
+    align-items: center;
+    min-width: 0;
+    font-size: 0.88rem;
+  }
+
+  .brand span {
+    display: grid;
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    border: 1px solid rgba(215, 168, 91, 0.48);
+    color: var(--accent-strong);
+    font-family: Georgia, "Times New Roman", serif;
+  }
+
+  .brand strong {
+    overflow: hidden;
+    color: var(--text);
+    font-weight: 800;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+  }
+
+  nav a,
+  .invite {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    padding: 0 10px;
+    border-radius: 5px;
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+
+  nav a:hover,
+  nav a.active {
+    color: var(--text);
+    background: rgba(242, 238, 229, 0.06);
+  }
+
+  .invite {
+    border: 1px solid var(--line);
+    color: var(--text);
+  }
+
+  @media (max-width: 900px) {
+    .header-inner {
+      grid-template-columns: 1fr auto;
+      min-height: auto;
+      padding: 14px 0;
+    }
+
+    nav {
+      grid-column: 1 / -1;
+      justify-content: flex-start;
+      order: 3;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .brand strong {
+      max-width: 150px;
+    }
+
+    nav {
+      gap: 1px;
+    }
+
+    nav a {
+      min-height: 32px;
+      padding: 0 5px;
+      font-size: 0.72rem;
+    }
+  }
+</style>

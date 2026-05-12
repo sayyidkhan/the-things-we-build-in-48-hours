@@ -1,0 +1,25 @@
+---
+import { getCollection, render } from "astro:content";
+import PageShell from "../../components/PageShell.astro";
+import Prose from "../../components/Prose.astro";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("essays");
+  return entries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<PageShell title={`${entry.data.title} | Essays`}>
+  <Prose>
+    <p class="meta">{entry.data.date}</p>
+    <h1>{entry.data.title}</h1>
+    <p>{entry.data.description}</p>
+    <Content />
+  </Prose>
+</PageShell>

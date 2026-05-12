@@ -1,0 +1,76 @@
+---
+interface Item {
+  slug: string;
+  data: {
+    title: string;
+    date: string;
+    description: string;
+  };
+}
+
+interface Props {
+  items: Item[];
+  limit?: number;
+}
+
+const visibleItems = Astro.props.limit
+  ? Astro.props.items.slice(0, Astro.props.limit)
+  : Astro.props.items;
+---
+
+<div class="essays">
+  {
+    visibleItems.map((item) => (
+      <article>
+        <a href={`/essays/${item.slug}/`}>
+          <time datetime={item.data.date}>{item.data.date}</time>
+          <h3>{item.data.title}</h3>
+          <p>{item.data.description}</p>
+        </a>
+      </article>
+    ))
+  }
+</div>
+
+<style>
+  .essays {
+    display: grid;
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  a {
+    display: grid;
+    grid-template-columns: 160px minmax(0, 0.75fr) minmax(260px, 1fr);
+    gap: 26px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  time {
+    color: var(--faint);
+    font-size: 0.82rem;
+    font-weight: 800;
+  }
+
+  h3 {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.35rem, 2.5vw, 2.1rem);
+    font-weight: 500;
+    line-height: 1.06;
+  }
+
+  p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  @media (max-width: 820px) {
+    a {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+  }
+</style>
